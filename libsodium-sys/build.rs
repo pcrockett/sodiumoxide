@@ -254,24 +254,6 @@ fn build_libsodium() {
         };
     }
 
-    // Run ./autogen.sh
-    let mut autogen_cmd = Command::new(source_dir.join("autogen.sh"));
-    let autogen_cmd_output = autogen_cmd
-        .current_dir(&source_dir)
-        .output()
-        .unwrap_or_else(|error| {
-            panic!("Failed to run './autogen.sh': {}\n{}", error, help);
-        });
-    if !autogen_cmd_output.status.success() {
-        panic!(
-            "\n{:?}\nCFLAGS={}\n{}\n{}\n",
-            autogen_cmd,
-            String::from_utf8_lossy(&autogen_cmd_output.stdout),
-            String::from_utf8_lossy(&autogen_cmd_output.stderr),
-            help
-        );
-    }
-
     // Run `./configure`
     let prefix_arg = format!("--prefix={}", install_dir.display());
     let mut configure_cmd = Command::new(source_dir.join("configure"));

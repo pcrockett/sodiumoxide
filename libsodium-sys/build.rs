@@ -139,9 +139,10 @@ fn build_libsodium() {
     // Download sources
 
     let source_dir = get_cur_dir().join("libsodium/");
-    if !source_dir.join(".git").exists() {
-        let _ = Command::new("git")
-            .args(&["submodule", "update", "--init"])
+    if !source_dir.exists() {
+        let download_script = get_cur_dir().join("download-libsodium.sh");
+        let _ = Command::new(download_script)
+            .args(&[VERSION])
             .status();
     }
 
@@ -252,24 +253,6 @@ fn build_libsodium() {
         } else {
             ""
         };
-    }
-
-    // Run ./autogen.sh
-    let mut autogen_cmd = Command::new(source_dir.join("autogen.sh"));
-    let autogen_cmd_output = autogen_cmd
-        .current_dir(&source_dir)
-        .output()
-        .unwrap_or_else(|error| {
-            panic!("Failed to run './autogen.sh': {}\n{}", error, help);
-        });
-    if !autogen_cmd_output.status.success() {
-        panic!(
-            "\n{:?}\nCFLAGS={}\n{}\n{}\n",
-            autogen_cmd,
-            String::from_utf8_lossy(&autogen_cmd_output.stdout),
-            String::from_utf8_lossy(&autogen_cmd_output.stderr),
-            help
-        );
     }
 
     // Run `./configure`

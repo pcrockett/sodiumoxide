@@ -138,7 +138,7 @@ fn get_install_dir() -> PathBuf {
 fn build_libsodium() {
     // Download sources
 
-    let source_dir = get_cur_dir().join("libsodium/");
+    let source_dir = get_cur_dir().join("libsodium/src/");
     if !source_dir.exists() {
         let download_script = get_cur_dir().join("download-libsodium.sh");
         let _ = Command::new(download_script)

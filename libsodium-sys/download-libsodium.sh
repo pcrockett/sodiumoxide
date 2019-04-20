@@ -26,8 +26,8 @@ fi
 mkdir "$LIBSODIUM_DIR"
 
 # Download the source code, verify it, and put it in place where it belongs
-wget "$SRC_DOWNLOAD_URL"
-wget "$SRC_DOWNLOAD_URL.sig"
+curl "$SRC_DOWNLOAD_URL" > "$SRC_ARCHIVE_FULL_NAME"
+curl "$SRC_DOWNLOAD_URL.sig" > "$SRC_ARCHIVE_FULL_NAME.sig"
 
 gpg --no-default-keyring \
     --keyring "$SCRIPT_DIR/libsodium-signing-keys.gpg" \
@@ -40,8 +40,8 @@ rm "$SRC_ARCHIVE_FULL_NAME"
 rm "$SRC_ARCHIVE_FULL_NAME.sig"
 
 # Download the precompiled libs for Windows, verify it, and put it in place where it belongs
-wget "$LIB_DOWNLOAD_URL"
-wget "$LIB_DOWNLOAD_URL.sig"
+curl "$LIB_DOWNLOAD_URL" > "$LIB_ARCHIVE_FULL_NAME"
+curl "$LIB_DOWNLOAD_URL.sig" > "$LIB_ARCHIVE_FULL_NAME.sig"
 
 gpg --no-default-keyring \
     --keyring "$SCRIPT_DIR/libsodium-signing-keys.gpg" \
